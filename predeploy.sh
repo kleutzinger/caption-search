@@ -2,7 +2,7 @@
 # [ -d "/app" ] &&  cd /app
 echo "inside directory" $(pwd)
 cd frontend
-npm install --save-dev
+NODE_ENV=build npm ci
 npm run build
 cp -r dist ../backend/
 cd ../backend/
