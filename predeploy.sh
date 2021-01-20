@@ -3,7 +3,7 @@
 echo "inside directory" $(pwd)
 cd frontend
 NODE_ENV=build npm ci
+# build outputs to ../backend/dist
 npm run build
-cp -r dist ../backend/
 cd ../backend/
 npm install
