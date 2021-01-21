@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "watch": "nodemon -e vue,js,json,html  --exec npm run build-dev",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build --dest ../backend/dist",
     "build-dev": "vue-cli-service build --mode development --dest ../backend/dist",
@@ -17,7 +18,8 @@
     "express": "^4.17.1",
     "morgan": "^1.10.0",
     "vue": "^2.6.11",
-    "vue-good-table": "^2.21.3"
+    "vue-good-table": "^2.21.3",
+    "vue-youtube": "^1.4.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

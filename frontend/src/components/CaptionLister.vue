@@ -1,5 +1,6 @@
 <template>
   <div>
+    <YoutubePlayer ref="playa" />
     <a href="https://youtu.be/-OXhMc0wpes">https://youtu.be/-OXhMc0wpes</a>
     <form @submit.prevent="handleSubmit">
       <button type="submit">Submit</button>
@@ -10,8 +11,12 @@
     </form>
     <ul v-if="captions">
       <li v-for="cap in captions" v-bind:key="cap.start">
-        <span> {{ Math.floor(cap.start) + 's' }} </span>
-        <a :href="`${youtube_link}&t=${Math.floor(cap.start)}`">{{ cap.text }}</a>
+        <span> {{ Math.floor(cap.start)  }} </span>
+        <a :href="`${youtube_link}&t=${Math.floor(cap.start)}`"><button>[yt]</button></a>
+        <a href="#" @click.prevent="handleTimeClick(cap.start)"><button>seek</button></a>
+        <a :href="`${youtube_link}&t=${Math.floor(cap.start)}`">{{
+          cap.text
+        }}</a>
       </li>
     </ul>
     <h2 v-if="!captions">loading...</h2>
@@ -25,12 +30,17 @@ const to_href = (video_id, start) => {
 };
 // import search_obj from "../assets/table-example.json";
 import axios from "axios";
+import YoutubePlayer from "./YoutubePlayer";
 export default {
   props: ["initial_video_id"],
   name: "CaptionLister",
+  components: {
+    YoutubePlayer,
+  },
   mounted() {
     // this is run after the element is created on page
-    this.populate()
+    this.$refs.playa.setId(this.yt_id);
+    this.populate();
   },
   data() {
     return {
@@ -53,10 +63,16 @@ export default {
   },
   methods: {
     to_href,
+    handleTimeClick(data) {
+      this.$refs.playa.playVideoAt(Math.floor(data));
+      this.$refs.playa.$el.scrollIntoView();
+      
+    },
     handleSubmit() {
       console.log("submitted by form:", this.comp_id);
       this.captions = null;
       this.yt_id = this.comp_id;
+      this.$refs.playa.setId(this.yt_id);
       this.populate();
     },
     youtube_parser(url) {
@@ -81,6 +97,7 @@ export default {
 }
 a {
   text-decoration: none;
+  padding-left:2em;
 }
 input {
   width: 40em;

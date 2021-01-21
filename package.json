@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "cd backend && npm run start",
-    "watch": "cd frontend && fd -e js -e html -e vue | entr npm run build-dev"
+    "watch_old": "cd frontend && fd -e js -e html -e vue | entr npm run build-dev",
+    "watch": "cd frontend && npm run watch"
   },
   "author": "",
   "license": "ISC"
