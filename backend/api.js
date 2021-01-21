@@ -6,11 +6,17 @@ const {
 } = require("@drorgl/youtube-captions-scraper");
 
 routes.get("/captions/:id", async (req, res, next) => {
-  let youtubeCaptions = new YoutubeCaption(req.params.id /*youtube video id*/);
-  let subtitles = await youtubeCaptions.getSubtitles(
-    "en" /*optional language*/
-  );
-  res.status(200).json(subtitles);
+  try {
+    let youtubeCaptions = new YoutubeCaption(
+      req.params.id /*youtube video id*/
+    );
+    let subtitles = await youtubeCaptions.getSubtitles(
+      "en" /*optional language*/
+    );
+    res.status(200).json(subtitles);
+  } catch (error) {
+    next(error);
+  }
 });
 
 routes.get("/", (req, res) => {

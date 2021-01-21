@@ -1,0 +1,12 @@
+## Todo:
+- [x] Print links to page
+- [x] Allow user-input video
+- [ ] on page video player
+  - [ ] jump to point on click
+  - [ ] sticky on top of page (or to side?)
+- [ ] set up youtube api key
+- [ ] Settle on url for service
+  - sub-search, captioner, captions, subs, youtube.kevbot.xyz?
+- [ ] Chrome extension version?
+- [ ] Input validation
+- [ ] On page search?
