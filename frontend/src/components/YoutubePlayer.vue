@@ -1,10 +1,11 @@
 <template>
-  <div id="YOUTUBE">
+  <div id="YOUTUBE" class="embed-responsive embed-responsive-16by9">
     <youtube
       :video-id="videoId"
       ref="youtube"
       :player-vars="playerVars"
       @playing="playing"
+      class="embed-responsive"
     ></youtube>
     <button @click="playVideoAt(0)">play</button>
   </div>
@@ -51,3 +52,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+#YOUTUBE {
+  max-height: 50vh;
+  margin-bottom: 10px;
+}
+</style>

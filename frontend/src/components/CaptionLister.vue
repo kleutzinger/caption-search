@@ -1,25 +1,38 @@
 <template>
   <div>
+    <h5>Click a time to jump to that point. Ctrl+f to search.</h5>
     <YoutubePlayer ref="playa" />
-    <a href="https://youtu.be/-OXhMc0wpes">https://youtu.be/-OXhMc0wpes</a>
-    <form @submit.prevent="handleSubmit">
-      <button type="submit">Submit</button>
-      <label>
-        New youtube link
-        <input ref="form_video_id" type="text" v-model="input_val" />
-      </label>
-    </form>
-    <ul v-if="captions">
-      <li v-for="cap in captions" v-bind:key="cap.start">
-        <span> {{ Math.floor(cap.start)  }} </span>
-        <a :href="`${youtube_link}&t=${Math.floor(cap.start)}`"><button>[yt]</button></a>
-        <a href="#" @click.prevent="handleTimeClick(cap.start)"><button>seek</button></a>
-        <a :href="`${youtube_link}&t=${Math.floor(cap.start)}`">{{
-          cap.text
-        }}</a>
-      </li>
-    </ul>
-    <h2 v-if="!captions">loading...</h2>
+    <b-form @submit.prevent="handleSubmit" inline>
+      <b-button type="submit" variant="dark">Set New Video</b-button>
+      <b-form-input
+        class="w-50 margin-xs"
+        ref="form_video_id"
+        v-model="input_val"
+      ></b-form-input>
+    </b-form>
+
+    <div v-if="captions">
+      <div class="table-container" style="max-height: 30vh; overflow: scroll">
+        <b-table
+          class="table-sm margin-xs"
+          @row-clicked="rowClick"
+          striped
+          fixed
+          v-bind:outlined="false"
+          :fields="table_fields"
+          :items="table_data"
+        ></b-table>
+      </div>
+    </div>
+    <div v-if="!captions">
+      <b-card title="No Captions">
+        <b-card-text>
+          <a @click.prevent="example" href="#" class="card-link"
+            >Try this example?</a
+          >
+        </b-card-text>
+      </b-card>
+    </div>
   </div>
 </template>
 
@@ -44,6 +57,16 @@ export default {
   },
   data() {
     return {
+      table_fields: [
+        { key: "text", label: "Subtitle" },
+        {
+          key: "start",
+          label: "Timestamp",
+          formatter: (v) => {
+            return new Date(Math.floor(v) * 1000).toISOString().substr(11, 8);
+          },
+        },
+      ],
       yt_id: this.initial_video_id,
       captions: null,
       input_val: `https://youtube.com/watch?v=${this.initial_video_id}`,
@@ -60,13 +83,24 @@ export default {
     youtube_link: function () {
       return `https://youtube.com/watch?v=${this.yt_id}`;
     },
+    table_data: function () {
+      return this.captions;
+    },
   },
   methods: {
     to_href,
+    example() {
+      this.input_val = "https://youtube.com/watch?v=-OXhMc0wpes";
+      this.handleSubmit();
+    },
+    rowClick(record, index) {
+      console.log(index, "row clicked");
+      console.log(record);
+      this.handleTimeClick(this.captions[index].start);
+    },
     handleTimeClick(data) {
       this.$refs.playa.playVideoAt(Math.floor(data));
       this.$refs.playa.$el.scrollIntoView();
-      
     },
     handleSubmit() {
       console.log("submitted by form:", this.comp_id);
@@ -97,9 +131,11 @@ export default {
 }
 a {
   text-decoration: none;
-  padding-left:2em;
+  padding-left: 2em;
 }
-input {
-  width: 40em;
+.table-container {
+  max-height: 30vh;
+  overflow-y: scroll;
+  margin-top: 10px;
 }
 </style>

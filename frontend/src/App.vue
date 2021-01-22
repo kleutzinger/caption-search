@@ -1,15 +1,10 @@
 <template>
-  <div id="app">
-    <a href="/api/captions/EffiRHdKRv8"><p>example api response</p></a>
-    <h4>
-      Input a different youtube video link. See the captions below. Click `seek` to
-      jump to that point in the video. Or use ctrl+f to search.
-    </h4>
+  <div class="container" id="app">
     <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
     <!-- <Youtube/> -->
     <!-- <youtube video-id="BBJa32lCaaY" /> -->
     <!-- <YoutubePlayer/> -->
-    <CaptionLister initial_video_id="-OXhMc0wpes" />
+    <CaptionLister initial_video_id="WnzlbyTZsQY" />
   </div>
 </template>
 
@@ -34,5 +29,9 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  height: 100%;
+}
+body {
+  background-image: url("~@/assets/bg.png");
 }
 </style>
